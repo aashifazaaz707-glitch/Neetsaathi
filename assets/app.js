@@ -1,4 +1,10 @@
 // app.js
+
+// --- PAYMENT INTEGRATION: Add the URL of your Render backend here ---
+const RENDER_BACKEND_URL = 'https://your-backend-name.onrender.com';
+// -------------------------------------------------------------------
+
+
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, deleteUser, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
 import { getFirestore, doc, onSnapshot, updateDoc, collection, query, orderBy, limit, runTransaction, deleteDoc, setDoc } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
@@ -365,6 +371,64 @@ try {
     const themeBtn = document.getElementById('themeToggleBtn');
     if (themeBtn) themeBtn.textContent = isDarkMode ? '☀️' : '🌙';
   }
+
+// --- PAYMENT INTEGRATION START ---
+async function handlePayment() {
+    if (!currentUser || !currentUserProfile) {
+        alert("Please sign in to proceed with the payment.");
+        return;
+    }
+
+    // Basic details for the payment
+    const paymentDetails = {
+        amount: "10.00", // Example amount, you can make this dynamic
+        productName: "NeetSaathi Premium",
+        firstName: currentUserProfile.displayName || "Valued User",
+        email: currentUser.email,
+    };
+
+    try {
+        // Step 1: Call your Render backend to get payment parameters
+        const response = await fetch(`${RENDER_BACKEND_URL}/create-payment`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(paymentDetails),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to initialize payment.');
+        }
+
+        const data = await response.json();
+
+        // Step 2: Create a hidden form and auto-submit it to redirect to PayU
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = data.payu_url;
+        form.style.display = 'none';
+
+        // Add all required fields from the backend response to the form
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = data[key];
+                form.appendChild(input);
+            }
+        }
+        
+        document.body.appendChild(form);
+        form.submit();
+
+    } catch (error) {
+        console.error('Payment Error:', error);
+        alert(`An error occurred: ${error.message}`);
+    }
+}
+// --- PAYMENT INTEGRATION END ---
+
   
   // --- NEW: Auth Functions ---
   function showLoginModal() {
@@ -690,6 +754,7 @@ try {
             <h3>Account Management</h3>
             <button id="logoutBtn" class="btn">Logout</button>
             <button id="profileShareBtn" class="btn" style="margin-left: 10px;">Share App</button>
+            <button id="supportBtn" class="btn btn-primary" style="margin-left: 10px;">Support Us</button>
             <button id="deleteAccountBtn" class="btn btn-delete" style="margin-left: 10px;">Delete Account</button>
         </div>
       </div>
@@ -719,6 +784,9 @@ try {
 
     document.getElementById('logoutBtn').onclick = () => signOut(auth);
     document.getElementById('profileShareBtn').onclick = handleShare;
+    // --- PAYMENT INTEGRATION: Add event listener for the support button ---
+    document.getElementById('supportBtn').onclick = handlePayment;
+    // -------------------------------------------------------------------
     document.getElementById('deleteAccountBtn').onclick = async () => {
         if (confirm("Are you absolutely sure? This will permanently delete your account and all your data. This action cannot be undone.")) {
             try {
