@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeetSaathi — NEET & JEE Syllabus Tracker</title>
+  
+  <meta name="description" content="Your ultimate companion for NEET & JEE preparation. Track your syllabus progress for Physics, Chemistry, Biology, and Maths, use the study timer, and manage your tasks—all in one place.">
+  <meta name="keywords" content="NEET syllabus tracker, JEE syllabus tracker, NEET preparation, JEE Main preparation, study timer, syllabus tracker, NEET 2026, JEE 2026">
+  <link rel="canonical" href="https://neetsaathi.in/"> <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#4CAF50">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "NeetSaathi",
+    "operatingSystem": "WEB",
+    "applicationCategory": "EducationalApplication",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "ratingCount": "150"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "INR"
+    }
+  }
+  </script>
+
+</head>
+<body>
+  <div id="app">
+    <noscript>
+      <div style="padding: 20px; text-align: center; font-family: 'Poppins', sans-serif;">
+        <h1>Track Your NEET & JEE Syllabus with NeetSaathi</h1>
+        <p>NeetSaathi is a free tool to help you track your progress for the NEET and JEE exams. Please enable JavaScript to use the interactive syllabus tracker, study timer, and to-do list.</p>
+      </div>
+    </noscript>
+  </div>
+
+  <script type="module" src="assets/app.js"></script>
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/service-worker.js")
+        .then(() => console.log("✅ Service Worker registered"))
+        .catch((err) => console.log("❌ Service Worker failed", err));
+    }
+  </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NVB8YS6L9Y"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-NVB8YS6L9Y');
+  </script>
+</body>
+</html>
