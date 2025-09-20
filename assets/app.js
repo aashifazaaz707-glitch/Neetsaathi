@@ -1,7 +1,7 @@
 // app.js
 
 // --- PAYMENT INTEGRATION: Add the URL of your Render backend here ---
-const RENDER_BACKEND_URL = 'https://your-backend-name.onrender.com';
+const RENDER_BACKEND_URL = 'https://neetsaathi-backend.onrender.com/';
 // -------------------------------------------------------------------
 
 
